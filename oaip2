@@ -1,0 +1,116 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        public static void Main(string[] args)
+        {
+            country one = new country("Россия", "Москва");//создание объекта страны с указанием страны и столицы
+            country two = new country("ЮАР", "Претория");
+            country three = new country("Индия", "Дели");
+
+            List<country> counlist = new List<country>();//создание динамического массива для стран
+            counlist.Add(new country("Россия", "Москва"));//добавление в массив объектов класса страны
+            counlist.Add(new country("ЮАР", "Претория"));
+            counlist.Add(new country("Индия", "Дели"));
+
+            List<hotel> hotlist = new List<hotel>();//создание динамического массива для отелей
+            hotlist.Add(new hotel("Regina", 5, "норм", one));//добавление в массив объектов класса отели
+            hotlist.Add(new hotel("Niger", 4, "good", two));
+            hotlist.Add(new hotel("Cow", 3, "bad", three));
+
+            Console.WriteLine("Меню:");
+            Console.WriteLine("1-Добавление страны");
+            Console.WriteLine("2-Добавление отеля");
+            Console.WriteLine("3-Вывод всех стран");
+            Console.WriteLine("4-Вывод всех отелей");
+            int v = Convert.ToInt32(Console.ReadLine());//выбор с консоли(единожды)
+            switch(v)//оператор множественного выбора
+            {
+                case 1:
+                    Console.WriteLine("Введите страну");
+                    string str = Console.ReadLine();
+                    Console.WriteLine("Введите столицу");
+                    string stol = Console.ReadLine();
+                    counlist.Add(new country(str, stol));
+                    break;
+
+                case 2:
+                    string name2, desc2, coun2, cap2;
+                    int stars2;
+                    Console.WriteLine("Как отель называется?");
+                    name2 = Console.ReadLine();
+                    Console.WriteLine("Сколько звезд?");
+                    stars2 = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Опишите отель");
+                    desc2 = Console.ReadLine();
+                    Console.WriteLine("Введите страну");
+                    coun2 = Console.ReadLine();
+                    Console.WriteLine("Введите столицу");
+                    cap2 = Console.ReadLine();
+                    country four = new country(coun2, cap2);//создание объекта страны с указанием страны и столицы
+                    counlist.Add(four);//добавление страны и столицы в массив страны
+                    hotlist.Add(new hotel(name2, stars2, desc2, four));//создание нового отеля
+                    break;
+                    //исключить повторение стран создаст сложности в выводе массива стран
+
+                case 3:
+                    for (int i = 0; i < hotlist.Count; i++)
+                    {
+                        Console.WriteLine(counlist[i].name);
+                    }
+                    break;
+
+                case 4:
+                    for (int i = 0; i < hotlist.Count; i++)
+                    {
+                        Console.WriteLine("Имя: " + hotlist[i].hotname);
+                        Console.WriteLine("Кол-во звезд: " + hotlist[i].stars);
+                        Console.WriteLine("Описание: " + hotlist[i].descrip);
+                        Console.WriteLine("Страна: " + counlist[i].name);
+                        Console.WriteLine();
+                    }
+                    break;
+
+                default:
+                    Console.WriteLine("Неверный вариант выбора.");
+                    break;
+            }
+        }      
+    }
+        
+    class hotel
+    {
+        public string hotname;
+        public int stars;
+        public string descrip;
+        public country hotcoun;
+        public hotel(string hotname, int stars, string descrip, country hotcoun)
+        {
+        this.hotname = hotname;
+        this.stars = stars;
+        this.descrip = descrip;
+        this.hotcoun = hotcoun;
+        }
+        public hotel()
+        { }
+    }
+
+    class country
+    {
+        public string name;
+        public string capital;
+        public country(string name, string capital)
+        {
+            this.name = name;
+            this.capital = capital;
+        }
+    }
+
+}
+
